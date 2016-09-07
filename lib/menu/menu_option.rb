@@ -5,7 +5,8 @@ class MainOption
     @x = Utils.center_x(@image)
     @y = y
   end
-  def draw
-    @image.draw(@x, @y, 1, 1, 1, Utils::TEXT_COLOR_LIGHT)
+  def draw(selected)
+    color = selected ? Utils::TEXT_COLOR : Utils::TEXT_COLOR_LIGHT
+    @image.draw(@x, @y, 1, 1, 1, color)
   end
 end
