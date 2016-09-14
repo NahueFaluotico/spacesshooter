@@ -56,5 +56,6 @@ class MainMenu
     end
   end
   def update
+    
   end
 end

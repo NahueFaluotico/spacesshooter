@@ -3,6 +3,7 @@ require_relative "menu/main_menu"
 require_relative "utils"
 require_relative "level/level"
 require_relative "level/player_ship"
+
 class Game < Gosu::Window
   SCREEN_WIDTH = 1024
   SCREEN_HEIGHT = 600
