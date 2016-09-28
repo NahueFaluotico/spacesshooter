@@ -2,6 +2,7 @@ require 'gosu'
 
 class Laser
 
+  attr_accessor :x, :y, :height, :width
   def initialize(x, y)
     @image = Gosu::Image.new('media/images/player/laser.png')
     @x = x

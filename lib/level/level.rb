@@ -51,8 +51,13 @@ class Level < Gosu::Window
     end
     create_enemy_ship
     if @enemyShips
-      @enemyShips.each { | enemyShip |  enemyShip.move! }
-      @enemyShips.reject! { | enemyShip | enemyShip.is_out? }
+      @enemyShips.each do | enemyShip |
+        enemyShip.move!
+        if enemyShip.was_hit?(@lasers)
+          enemyShip.destroy!
+        end
+      end
+      @enemyShips.reject! { | enemyShip | enemyShip.is_out? || enemyShip.destroyed? }
     end
   end
   def create_enemy_ship
