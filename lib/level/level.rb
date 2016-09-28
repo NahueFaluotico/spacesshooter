@@ -5,14 +5,14 @@ require_relative "life_counter"
 require_relative "enemy_ship"
 
 class Level < Gosu::Window
-  def initialize(window)
+  def initialize(window, enemy_ship_definitions)
     @window = window
     @player = PlayerShip.new
     @lasers = []
     @score = Score.new
     @lifeCounter = LifeCounter.new
-    @enemyShip = EnemyShip.new("enemy_4.png", 200, 10)
-  #  @enemyShips = []
+    @enemyShips = []
+    @enemy_ship_definitions = enemy_ship_definitions
 
   end
 
@@ -21,9 +21,11 @@ class Level < Gosu::Window
     if @lasers
       @lasers.each { | laser | laser.draw }
     end
+    if @enemyShips
+      @enemyShips.each { | enemyShip | enemyShip.draw }
+    end
     @score.draw
     @lifeCounter.draw
-    @enemyShip.draw
   end
 
   def button_down(id)
@@ -47,11 +49,30 @@ class Level < Gosu::Window
       @lasers.each { | laser |  laser.move! }
       @lasers.reject! { |laser| laser.is_out? }
     end
-    @enemyShip.move!
+    create_enemy_ship
+    if @enemyShips
+      @enemyShips.each { | enemyShip |  enemyShip.move! }
+      @enemyShips.reject! { | enemyShip | enemyShip.is_out? }
+    end
   end
-#  def create_enemy_ship
-#    current_time = Gosu::milliseconds
-#    if @last_enemy_ship_at.nil? || (@last_enemy_ship_at + time_between_enemy_ship < current_time)
-#  end
+  def create_enemy_ship
+    current_time = Gosu::milliseconds
+    if @last_enemy_ship_at.nil? || (@last_enemy_ship_at + time_between_enemy_ships < current_time)
+      @last_enemy_ship_at = current_time
+      info = @enemy_ship_definitions.sample
+      @enemyShips << EnemyShip.new(info[:image_path], info[:points], info[:velocity])
+    end
+  end
+  def time_between_enemy_ships
+    case @score.points
+      when 0..1000
+        3000
+      when 1000..2000
+        2000
+      else
+        1000
+    end
+  end
+
 
 end

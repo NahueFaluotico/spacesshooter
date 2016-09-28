@@ -2,6 +2,9 @@ require "gosu"
 require_relative "../utils"
 
 class Score
+
+  attr_reader :points
+  
   def initialize
     @points = 0
     @text = Gosu::Font.new(40, name: Utils.default_font)

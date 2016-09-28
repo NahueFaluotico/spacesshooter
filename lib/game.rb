@@ -1,4 +1,5 @@
 require "gosu"
+require "csv"
 require_relative "menu/main_menu"
 require_relative "utils"
 require_relative "level/level"
@@ -12,7 +13,9 @@ class Game < Gosu::Window
     self.caption = "Space Shooter"
     @main_menu = MainMenu.new (self)
     @current_screen = @main_menu
-    @level = Level.new(self)
+    @enemy_ship_definitions = load_enemy_ship_definitions
+    @level = Level.new(self, @enemy_ship_definitions)
+
   end
 
   def draw
@@ -32,5 +35,17 @@ class Game < Gosu::Window
   def update
     @current_screen.update
   end
+  def load_enemy_ship_definitions
+    file_content = File.read('enemy_ships.csv')
+    rows = CSV.parse(file_content)
+    rows.map do |row|
+      {
+        image_path: row[0],
+        name: row[1],
+        points: row[2].to_i,
+        velocity: row[3].to_i
+      }
 
+    end
+  end
 end

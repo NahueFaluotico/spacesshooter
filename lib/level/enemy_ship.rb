@@ -18,4 +18,8 @@ class EnemyShip
   def move!
     @x -= @velocity
   end
+
+  def is_out?
+    @x < 0
+  end
 end
