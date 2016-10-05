@@ -52,9 +52,13 @@ class Level < Gosu::Window
     create_enemy_ship
     if @enemyShips
       @enemyShips.each do | enemyShip |
-        enemyShip.move!
+      enemyShip.move!
         if enemyShip.was_hit?(@lasers)
           enemyShip.destroy!
+          @score.update_points!(enemyShip.points)
+        elsif enemyShip.is_out?
+          @lifeCounter.lose_life!
+          @window.show_game_over(@score.points) if @lifeCounter.game_over?
         end
       end
       @enemyShips.reject! { | enemyShip | enemyShip.is_out? || enemyShip.destroyed? }

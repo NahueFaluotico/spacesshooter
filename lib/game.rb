@@ -4,6 +4,7 @@ require_relative "menu/main_menu"
 require_relative "utils"
 require_relative "level/level"
 require_relative "level/player_ship"
+require_relative "level/game_over"
 
 class Game < Gosu::Window
   SCREEN_WIDTH = 1024
@@ -47,5 +48,8 @@ class Game < Gosu::Window
       }
 
     end
+  end
+  def show_game_over(points)
+    @current_screen = GameOver.new(self, points)
   end
 end

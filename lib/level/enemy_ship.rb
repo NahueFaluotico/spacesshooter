@@ -1,7 +1,7 @@
 require "gosu"
 
 class EnemyShip
-
+  attr_accessor :points
   def initialize(image_path,points,velocity)
     @image = Gosu::Image.new("media/images/enemies/#{image_path}")
     @x = Game::SCREEN_WIDTH - @image.width
@@ -11,7 +11,7 @@ class EnemyShip
     @destroyed = false
     @height = @image.height
     @width = @image.width
-    
+
   end
 
   def draw
@@ -31,17 +31,17 @@ class EnemyShip
   def destroyed?
     @destroyed
   end
-
+  def destroy!
+    @destroyed = true
+  end
   private
+
   def hit?(laser)
     if (@y > laser.y + laser.height) || (@y + @height < laser.y) || (@x > laser.x + laser.width) || (@x + @width < laser.x)
       false
     else
       true
     end
-  end
-  def destroy!
-    @destroyed = true
   end
 
 end
